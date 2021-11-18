@@ -16,6 +16,7 @@ alert(message);
 
 let chooseAction;
 let todoMessage=" ";
+let actionCommand;
 let inputId = Number(prompt(`Enter the user id from the following: \n 1, 2, 3, 4, 5, 6, 7, 8, 9, 10`));
 
 if( checkValidityOfID(inputId) === -1){
@@ -39,13 +40,15 @@ else{
     }
     else if(checkValidityOfAction(chooseAction) === "ADD"){
         //Adds a todo object at the end of the todos array
-        todos.push({userId:inputId,id:todos.length+1,title:'New todo',completed:false});
+        actionCommand = prompt("Enter new todo title: ");
+        todos.push({userId:inputId,id:todos.length+1,title:actionCommand,completed:false});
         console.log(todos[todos.length-1]);
     }
     else if(checkValidityOfAction(chooseAction) === "UPDATE"){
         //Updates the last todo for a specific person
+        actionCommand = prompt("Enter your updated title: ");
         todoMessage = `Name: ${users[inputId-1].name} \n`;
-        todos[inputId*20-1].title="Updated to do title";
+        todos[inputId*20-1].title=actionCommand;
         for(const item of todos){
             if(item['userId']===inputId){
                 todoMessage+=`To do:  ${item['title']}\n`;
