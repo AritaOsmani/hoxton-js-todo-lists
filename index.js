@@ -17,61 +17,71 @@ alert(message);
 let chooseAction;
 let todoMessage=" ";
 let actionCommand;
-let inputId = Number(prompt(`Enter the user id from the following: \n 1, 2, 3, 4, 5, 6, 7, 8, 9, 10`));
+let inputId;
 
-if( checkValidityOfID(inputId) === -1){
-    alert("Enter an id number from the list!");
-}
-else{
-    chooseAction = prompt(`What do you want to do? Choose from below:\n Delete, Update, Show, Add`);
-    if(checkValidityOfAction(chooseAction) === -1){
-        alert("Wrong action input.Choose only from the list!");
+
+while(true){
+    inputId = Number(prompt(`Enter the user id from the following: \n 1, 2, 3, 4, 5, 6, 7, 8, 9, 10`));
+    if(inputId === 0 ){
+        break;
+    }else if(checkValidityOfID(inputId) === -1){
+        alert('Wrong id input. Choose only from the list.');
     }
-   else if(checkValidityOfAction(chooseAction) === "SHOW"){
-       //Shows all todos for the specific id
-         todoMessage = `Name: ${users[inputId-1].name} \n`;
-        for(const item of todos){
-        if(item['userId']===inputId){
-            todoMessage+=`To do:  ${item['title']}\n`;
-        }
-        
-     }
-        alert(todoMessage);
-    }
-    else if(checkValidityOfAction(chooseAction) === "ADD"){
-        //Adds a todo object at the end of the todos array
-        actionCommand = prompt("Enter new todo title: ");
-        todos.push({userId:inputId,id:todos.length+1,title:actionCommand,completed:false});
-        console.log(todos[todos.length-1]);
-    }
-    else if(checkValidityOfAction(chooseAction) === "UPDATE"){
-        //Updates the last todo for a specific person
-        actionCommand = prompt("Enter your updated title: ");
-        todoMessage = `Name: ${users[inputId-1].name} \n`;
-        todos[inputId*20-1].title=actionCommand;
-        for(const item of todos){
-            if(item['userId']===inputId){
-                todoMessage+=`To do:  ${item['title']}\n`;
+    else{
+         chooseAction = prompt(`What do you want to do? Choose from below:\n Delete, Update, Show, Add`);
+         if(chooseAction === null || chooseAction ===''){
+             break;
+         }else if(checkValidityOfAction(chooseAction) === -1){
+             alert("Wrong input command.Choose only from the list given.");
+         }else if(checkValidityOfAction(chooseAction) === 'SHOW'){
+              //Shows all todos for the specific id
+             todoMessage = `Name: ${users[inputId-1].name}\n`;
+             for(const item of todos){
+                if(item['userId'] === inputId){
+                    todoMessage+=`To do:  ${item['title']}\n`;
+                }
+             }
+             alert(todoMessage);
+         }else if(checkValidityOfAction(chooseAction) === 'ADD'){
+             //Adds a todo object at the end of the todos array
+            actionCommand = prompt("Enter new todo title: ");
+            if(actionCommand === null || actionCommand === ''){
+                alert("You should add something. Try again!");
+            }else{
+                todos.push({userId:inputId,id:todos.length+1,title:actionCommand,completed:false});
             }
-            
-         }
-         alert(todoMessage);
-    }
-    else if(checkValidityOfAction(chooseAction) === "DELETE"){
-        //Deletes the last todo for a specific person
-        todoMessage = `Name: ${users[inputId-1].name} \n`;
-       delete  todos[inputId*20-1].title;
-        for(const item of todos){
-            if(item['userId']===inputId){
-                todoMessage+=`To do:  ${item['title']}\n`;
+         }else if(checkValidityOfAction(chooseAction) === 'UPDATE'){
+             //Updates the last todo for a specific person
+            actionCommand = prompt("Enter your updated title: ");
+            if(actionCommand === null || actionCommand === ''){
+                alert("You should add something. Try again!");
+            }else{
+                todoMessage = `Name: ${users[inputId-1].name} \n`;
+                todos[inputId*20-1].title=actionCommand;
+                for(const item of todos){
+                    if(item['userId']===inputId){
+                        todoMessage+=`To do:  ${item['title']}\n`;
+                    }
+                    
+                 }
+                 alert(todoMessage);
             }
-            
+         }else if(checkValidityOfAction(chooseAction) === 'DELETE'){
+             //Deletes the last todo for a specific person
+            todoMessage = `Name: ${users[inputId-1].name} \n`;
+            delete  todos[inputId*20-1].title;
+             for(const item of todos){
+                 if(item['userId']===inputId){
+                     todoMessage+=`To do:  ${item['title']}\n`;
+                 }
+                 
+              }
+              alert(todoMessage);
          }
-         alert(todoMessage);
     }
-    
+
 }
-//Checks if the input id is from the list given
+
 function checkValidityOfID(inputId){
     switch(inputId){
         case 1:
